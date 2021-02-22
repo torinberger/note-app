@@ -1,0 +1,36 @@
+{
+  "name": "note-app",
+  "version": "0.0.1",
+  "description": "A simple and secure note app",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint --ext .js ./",
+    "test": "node test.js",
+    "dev": "npm run lint && npm run test && node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/torinberger/note-app.git"
+  },
+  "author": "torinberger",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/torinberger/note-app/issues"
+  },
+  "homepage": "https://github.com/torinberger/note-app#readme",
+  "devDependencies": {
+    "eslint": "^7.20.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1"
+  },
+  "dependencies": {
+    "@koa/router": "^10.0.0",
+    "dotenv": "^8.2.0",
+    "koa": "^2.13.1",
+    "koa-bodyparser": "^4.3.0",
+    "koa-passport": "^4.1.3",
+    "koa-session": "^6.1.0",
+    "passport-local": "^1.0.0",
+    "pg": "^8.5.1"
+  }
+}
