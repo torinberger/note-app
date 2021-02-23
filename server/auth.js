@@ -1,6 +1,6 @@
 const passport = require('koa-passport');
 const LocalStrategy = require('passport-local').Strategy;
-const pg = require('pg');
+const database = require('./database');
 
 passport.serializeUser(function(user, done) {
   done(null, user.id);

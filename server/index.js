@@ -4,6 +4,8 @@ const router = require('@koa/router');
 const session = require('koa-session');
 const passport = require('koa-passport');
 
+const apiRouter = require('./api');
+
 const app = new Koa();
 
 // session
@@ -15,11 +17,13 @@ app.use(bodyParser());
 
 // auth
 require('./auth');
-app.use(passport.initialize);
+app.use(passport.initialize());
 app.use(passport.session());
 
 // routes
-app.use()
+app
+  .use(apiRouter.routes())
+  .use(apiRouter.middleware());
 
 app.use(async (ctx, next) => {
   const start = Date.now();
