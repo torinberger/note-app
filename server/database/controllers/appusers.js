@@ -1,7 +1,16 @@
-const db = require('./connect');
+const db = require('../connect');
+const importQuery = require('./import');
 
 exports.findUsers = function () {
-  // body...
+  importQuery('appusers/findUsers', (query) => {
+    db.query(query, (err, res) => {
+      if (err) {
+        throw err;
+      } else {
+        console.log(err, res);
+      }
+    });
+  });
 };
 
 exports.findUserByUsername = function (username) {
