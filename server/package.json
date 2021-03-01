@@ -6,6 +6,7 @@
   "scripts": {
     "lint": "eslint --ext .js ./",
     "test": "node test.js",
+    "setup": "node database/setup.js",
     "dev": "npm run lint && npm run test && node index.js"
   },
   "repository": {
