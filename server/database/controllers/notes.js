@@ -1,8 +1,9 @@
-const db = require('./connect');
+const db = require('../connect');
+const importQuery = require('./import');
 const handleErr = require('../../err');
 
-exports.findNotes = async function () {
-  return new Promise(function(resolve, reject) {
+exports.findNotes = async function findNotes() {
+  return new Promise((resolve, reject) => {
     importQuery('notes/findNotes', [], (query) => {
       db.query(query, (err, res) => {
         if (err) {
@@ -16,8 +17,8 @@ exports.findNotes = async function () {
   });
 };
 
-exports.findNotesByUsername = async function (username) {
-  return new Promise(function(resolve, reject) {
+exports.findNotesByUsername = async function findNotesByUsername(username) {
+  return new Promise((resolve, reject) => {
     importQuery('notes/findNotesByUsername', [username], (query) => {
       db.query(query, (err, res) => {
         if (err) {
@@ -31,8 +32,8 @@ exports.findNotesByUsername = async function (username) {
   });
 };
 
-exports.addNote = async function (username, title, text) {
-  return new Promise(function(resolve, reject) {
+exports.addNote = async function addNote(username, title, text) {
+  return new Promise((resolve, reject) => {
     importQuery('notes/addNote', [username, title, text], (query) => {
       db.query(query, (err, res) => {
         if (err) {
@@ -46,8 +47,8 @@ exports.addNote = async function (username, title, text) {
   });
 };
 
-exports.updateNote = async function (id, newTitle, newText) {
-  return new Promise(function(resolve, reject) {
+exports.updateNote = async function updateNote(id, newTitle, newText) {
+  return new Promise((resolve, reject) => {
     importQuery('notes/updateNote', [id, newTitle, newText], (query) => {
       db.query(query, (err, res) => {
         if (err) {
@@ -61,8 +62,8 @@ exports.updateNote = async function (id, newTitle, newText) {
   });
 };
 
-exports.deleteNote = async function (id) {
-  return new Promise(function(resolve, reject) {
+exports.deleteNote = async function deleteNote(id) {
+  return new Promise((resolve, reject) => {
     importQuery('notes/deleteNote', [id], (query) => {
       db.query(query, (err, res) => {
         if (err) {

@@ -1,5 +1,4 @@
+const appusers = require('./controllers/appusers');
+const notes = require('./controllers/notes');
 
-module.exports = {
-  appusers: require('./controllers/appusers.js'),
-  notes: require('./controllers/notes.js')
-};
+module.exports = { appusers, notes };

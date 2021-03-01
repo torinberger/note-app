@@ -24,9 +24,8 @@ passport.use(new LocalStrategy((username, password, done) => {
     .then((user) => {
       if (!user) {
         return done(null, false, { message: 'Incorrect credentials.' });
-      } else {
-        return done(null, user);
       }
+      return done(null, user);
     })
     .catch((err) => {
       handleErr(err);
@@ -34,15 +33,14 @@ passport.use(new LocalStrategy((username, password, done) => {
     });
 }));
 
-passport.use(new LocalStrategy(options, (username, password, done) => {
+passport.use(new LocalStrategy((username, password, done) => {
   db.appusers.findUserByCredentials(username, password)
     .then((user) => {
       if (!user) return done(null, false);
       if (password === user.password) {
         return done(null, user);
-      } else {
-        return done(null, false);
       }
+      return done(null, false);
     })
     .catch((err) => {
       handleErr(err);

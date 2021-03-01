@@ -6,7 +6,7 @@ importQuery('../setup.sql', [], (query) => {
     if (err) {
       throw err;
     } else {
-      console.log(err, res);
+      console.log(err, res); // eslint-ignore
     }
   });
 });

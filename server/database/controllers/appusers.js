@@ -2,8 +2,8 @@ const db = require('../connect');
 const importQuery = require('./import');
 const handleErr = require('../../err');
 
-exports.findUsers = async function () {
-  return new Promise(function(resolve, reject) {
+exports.findUsers = async function findUsers() {
+  return new Promise((resolve, reject) => {
     importQuery('appusers/findUsers', [], (query) => {
       db.query(query, (err, res) => {
         if (err) {
@@ -17,8 +17,8 @@ exports.findUsers = async function () {
   });
 };
 
-exports.findUserByUsername = async function (username) {
-  return new Promise(function(resolve, reject) {
+exports.findUserByUsername = async function findUserByUsername(username) {
+  return new Promise((resolve, reject) => {
     importQuery('appusers/findUser', [username], (query) => {
       db.query(query, (err, res) => {
         if (err) {
@@ -32,8 +32,8 @@ exports.findUserByUsername = async function (username) {
   });
 };
 
-exports.findUserByCredentials = async function (username, password) {
-  return new Promise(function(resolve, reject) {
+exports.findUserByCredentials = async function findUserByCredentials(username, password) {
+  return new Promise((resolve, reject) => {
     importQuery('appusers/findUserByCredentials', [username, password], (query) => {
       db.query(query, (err, res) => {
         if (err) {
@@ -47,8 +47,8 @@ exports.findUserByCredentials = async function (username, password) {
   });
 };
 
-exports.addUser = async function (username, password) {
-  return new Promise(function(resolve, reject) {
+exports.addUser = async function addUser(username, password) {
+  return new Promise((resolve, reject) => {
     importQuery('appusers/addUser', [username, password], (query) => {
       db.query(query, (err, res) => {
         if (err) {
@@ -62,8 +62,8 @@ exports.addUser = async function (username, password) {
   });
 };
 
-exports.deleteUser = async function (username, password) {
-  return new Promise(function(resolve, reject) {
+exports.deleteUser = async function deleteUser(username, password) {
+  return new Promise((resolve, reject) => {
     importQuery('appusers/deleteUser', [username, password], (query) => {
       db.query(query, (err, res) => {
         if (err) {
