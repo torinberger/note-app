@@ -2,7 +2,7 @@ const db = require('../connect');
 const importQuery = require('./import');
 
 exports.findUsers = function () {
-  importQuery('appusers/findUsers', (query) => {
+  importQuery('appusers/findUsers', [], (query) => {
     db.query(query, (err, res) => {
       if (err) {
         throw err;
@@ -14,21 +14,49 @@ exports.findUsers = function () {
 };
 
 exports.findUserByUsername = function (username) {
-  // body...
-};
-
-exports.findUserByID = function (id) {
-  // body...
+  importQuery('appusers/findUser', [username], (query) => {
+    db.query(query, (err, res) => {
+      if (err) {
+        throw err;
+      } else {
+        console.log(err, res);
+      }
+    });
+  });
 };
 
 exports.findUserByCredentials = function (username, password) {
-  // body...
+  importQuery('appusers/findUserByCredentials', [username, password], (query) => {
+    db.query(query, (err, res) => {
+      if (err) {
+        throw err;
+      } else {
+        console.log(err, res);
+      }
+    });
+  });
 };
 
 exports.addUser = function (username, password) {
-  // body...
+  importQuery('appusers/addUser', [username, password], (query) => {
+    db.query(query, (err, res) => {
+      if (err) {
+        throw err;
+      } else {
+        console.log(err, res);
+      }
+    });
+  });
 };
 
-exports.deleteUser = function (id) {
-  // body...
+exports.deleteUser = function (username, password) {
+  importQuery('appusers/deleteUser', [username, password], (query) => {
+    db.query(query, (err, res) => {
+      if (err) {
+        throw err;
+      } else {
+        console.log(err, res);
+      }
+    });
+  });
 };
