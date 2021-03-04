@@ -6,6 +6,7 @@ CREATE TABLE appusers (
 CREATE TABLE notes (
   id SERIAL PRIMARY KEY,
   userusername varchar(20),
+  lastupdate timestamp,
   title varchar(50),
   content TEXT
 );

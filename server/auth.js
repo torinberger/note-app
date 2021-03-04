@@ -2,7 +2,7 @@ const passport = require('koa-passport');
 const LocalStrategy = require('passport-local').Strategy;
 const db = require('./database');
 
-const handleErr = require('./err');
+const errHandler = require('./err');
 
 passport.serializeUser((user, done) => {
   done(null, user.username);
@@ -14,8 +14,8 @@ passport.deserializeUser((username, done) => {
       done(null, user);
     })
     .catch((err) => {
-      handleErr(err);
-      done(err, null);
+      errHandler(err);
+      done(err);
     });
 });
 
@@ -28,22 +28,6 @@ passport.use(new LocalStrategy((username, password, done) => {
       return done(null, user);
     })
     .catch((err) => {
-      handleErr(err);
       done(err);
-    });
-}));
-
-passport.use(new LocalStrategy((username, password, done) => {
-  db.appusers.findUserByCredentials(username, password)
-    .then((user) => {
-      if (!user) return done(null, false);
-      if (password === user.password) {
-        return done(null, user);
-      }
-      return done(null, false);
-    })
-    .catch((err) => {
-      handleErr(err);
-      return done(err);
     });
 }));
