@@ -36,3 +36,5 @@ app.use(async (ctx, next) => {
 
 app.listen(process.env.PORT);
 console.log(`Listening on: ${process.env.PORT}`); // eslint-ignore
+
+module.exports = app;
