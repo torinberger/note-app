@@ -1,5 +1,4 @@
 const Router = require('@koa/router');
-const passport = require('passport');
 const database = require('../database');
 const errHandler = require('../err');
 
@@ -25,12 +24,12 @@ notesRouter.use((ctx, next) => {
       .catch((err) => {
         errHandler(err);
         ctx.status = 500;
-      })
+      });
   } else {
     ctx.status = 401;
     ctx.body = 'Missing Authentication';
   }
-})
+});
 
 notesRouter.get('/ping', (ctx) => {
   ctx.body = 'pong!';

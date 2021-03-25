@@ -1,6 +1,5 @@
 const Router = require('@koa/router');
-const database = require('../database');
-const errHandler = require('../err');
+const passport = require('passport');
 
 const authRouter = new Router();
 
@@ -14,26 +13,26 @@ authRouter.post('/login', (ctx) => {
   passport.authenticate('login', async (err, user) => {
     if (err) {
       ctx.status = 500;
-    } else if(!user) {
+    } else if (!user) {
       ctx.status = 401;
     } else {
       ctx.session.auth = user;
       ctx.status = 200;
     }
-  })
+  });
 });
 
 authRouter.post('/register', (ctx) => {
   passport.authenticate('signup', async (err, user) => {
     if (err) {
       ctx.status = 500;
-    } else if(!user) {
+    } else if (!user) {
       ctx.status = 401;
     } else {
       ctx.session.auth = user;
       ctx.status = 201;
     }
-  })
+  });
 });
 
 module.exports = authRouter;
