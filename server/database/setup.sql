@@ -1,6 +1,6 @@
 CREATE TABLE appusers (
   username varchar(20) UNIQUE,
-  password varchar(30)
+  password varchar(20)
 );
 
 CREATE TABLE notes (

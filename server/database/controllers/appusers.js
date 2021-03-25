@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const db = require('../connect');
 const importQuery = require('./import');
 
@@ -30,6 +31,8 @@ exports.findUserByUsername = async function findUserByUsername(username) {
 };
 
 exports.findUserByCredentials = async function findUserByCredentials(username, password) {
+  // hash password before comparing to database
+  password = bcrypt.hash(password, 20);
   return new Promise((resolve, reject) => {
     importQuery('appusers/findUserByCredentials', [username, password], (query) => {
       db.query(query, (err, res) => {
@@ -45,6 +48,8 @@ exports.findUserByCredentials = async function findUserByCredentials(username, p
 
 exports.addUser = async function addUser(username, password) {
   return new Promise((resolve, reject) => {
+    // hash password before saving to database
+    password = bcrypt.hash(password, 20);
     importQuery('appusers/addUser', [username, password], (query) => {
       db.query(query, (err, res) => {
         if (err) {
@@ -58,6 +63,8 @@ exports.addUser = async function addUser(username, password) {
 };
 
 exports.deleteUser = async function deleteUser(username, password) {
+  // has password before saving to database
+  password = bcrypt.hash(password, 20);
   return new Promise((resolve, reject) => {
     importQuery('appusers/deleteUser', [username, password], (query) => {
       db.query(query, (err, res) => {

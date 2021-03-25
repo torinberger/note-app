@@ -11,29 +11,29 @@ authRouter.get('/ping', (ctx) => {
 });
 
 authRouter.post('/login', (ctx) => {
-  const { username, password } = ctx.request.body;
-  database.appusers.findUserByCredentials(username, password)
-    .then(() => {
+  passport.authenticate('login', async (err, user) => {
+    if (err) {
+      ctx.status = 500;
+    } else if(!user) {
+      ctx.status = 401;
+    } else {
+      ctx.session.auth = user;
       ctx.status = 200;
-    })
-    .catch(errHandler);
+    }
+  })
 });
 
 authRouter.post('/register', (ctx) => {
-  const { username, password } = ctx.request.body;
-  database.appusers.findUserByUsername(username)
-    .then((userByUsername) => {
-      if (!userByUsername) {
-        database.appusers.addUser(username, password)
-          .then(() => {
-            ctx.status = 201;
-          })
-          .catch(errHandler);
-      } else {
-        ctx.status = 403;
-      }
-    })
-    .catch(errHandler);
+  passport.authenticate('signup', async (err, user) => {
+    if (err) {
+      ctx.status = 500;
+    } else if(!user) {
+      ctx.status = 401;
+    } else {
+      ctx.session.auth = user;
+      ctx.status = 201;
+    }
+  })
 });
 
 module.exports = authRouter;
