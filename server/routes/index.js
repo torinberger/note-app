@@ -1,5 +1,6 @@
 const Router = require('@koa/router');
 const authRouter = require('./auth');
+const notesRouter = require('./notes');
 
 const router = new Router();
 
@@ -40,5 +41,9 @@ router.get('/ping', (ctx) => {
 router
   .use(authRouter.routes())
   .use(authRouter.middleware());
+
+router
+  .use(notesRouter.routes())
+  .use(notesRouter.middleware());
 
 module.exports = router;

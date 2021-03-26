@@ -8,29 +8,6 @@ const notesRouter = new Router();
 
 notesRouter.prefix('/notes');
 
-notesRouter.use((ctx, next) => {
-  if (ctx.session.auth) {
-    database
-      .appusers
-      .findUserByCredentials(ctx.session.auth.username, ctx.session.auth.password)
-      .then((user) => {
-        if (user) {
-          next();
-        } else {
-          ctx.status = 401;
-          ctx.body = 'Invalid Authentication';
-        }
-      })
-      .catch((err) => {
-        errHandler(err);
-        ctx.status = 500;
-      });
-  } else {
-    ctx.status = 401;
-    ctx.body = 'Missing Authentication';
-  }
-});
-
 notesRouter.get('/ping', (ctx) => {
   ctx.body = 'pong!';
 });
