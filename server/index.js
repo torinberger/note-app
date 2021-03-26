@@ -4,8 +4,9 @@ const session = require('koa-session');
 const bodyParser = require('koa-bodyparser');
 const passport = require('koa-passport');
 const errHandler = require('./err');
+const database = require('database');
 
-const apiRouter = require('./api');
+const apiRouter = require('./routes');
 
 const app = new Koa();
 
