@@ -9,6 +9,7 @@ const notesRouter = new Router();
 notesRouter.prefix('/notes');
 
 notesRouter.get('/ping', (ctx) => {
+  ctx.status = 200;
   ctx.body = 'pong!';
 });
 

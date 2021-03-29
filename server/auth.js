@@ -5,6 +5,7 @@ const errHandler = require('./err');
 
 passport.use('signup', new LocalStrategy(async (username, password, done) => {
   try {
+    console.log('passport middleware reached');
     const user = await db.appusers.addUser({ username, password });
     return done(null, user);
   } catch (err) {

@@ -22,8 +22,10 @@ authRouter.post('/login', (ctx) => {
   });
 });
 
-authRouter.post('/register', (ctx) => {
+authRouter.post('/signup', (ctx) => {
+  console.log('auth path hit');
   passport.authenticate('signup', async (err, user) => {
+    console.log('passport complete');
     if (err) {
       ctx.status = 500;
     } else if (!user) {
