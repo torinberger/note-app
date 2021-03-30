@@ -2,7 +2,6 @@ require('dotenv').config();
 const Koa = require('koa');
 const session = require('koa-session');
 const bodyParser = require('koa-bodyparser');
-const passport = require('koa-passport');
 const errHandler = require('./err');
 
 const apiRouter = require('./routes');
@@ -33,12 +32,6 @@ app.use(async (ctx, next) => {
     ctx.status = 500;
   }
 });
-
-// auth
-require('./auth');
-
-app.use(passport.initialize());
-app.use(passport.session());
 
 // routes
 app

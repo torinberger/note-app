@@ -11,11 +11,11 @@ router.prefix('/api');
 router.use(async (ctx, next) => {
   if (ctx.url.indexOf('auth') > 0) { // exempt auth routes for authentication testing
     next();
-  } else if (ctx.session.auth) { // if authentication session avaliable
+  } else if (ctx.session.user) { // if authentication session avaliable
     // test authentication credentials
     database
       .appusers
-      .findUserByCredentials(ctx.session.auth.username, ctx.session.auth.password)
+      .findUserByCredentials(ctx.session.user.username, ctx.session.user.password)
       .then((user) => {
         if (user) {
           next(); // if user found, pass to next route

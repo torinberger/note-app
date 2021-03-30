@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 module.exports = async function main(filepath, callback) {
-  fs.readFile(`./queries/${filepath}.sql`, (err, buffer) => {
+  fs.readFile(`${__dirname}/queries/${filepath}.sql`, (err, buffer) => {
     if (err) {
       throw err;
     } else {

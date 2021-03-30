@@ -4,8 +4,8 @@ const importQuery = require('./import');
 
 exports.findUsers = async function findUsers() {
   return new Promise((resolve, reject) => {
-    importQuery('appusers/findUsers', [], (query) => {
-      db.query(query, (err, res) => {
+    importQuery('appusers/findUsers', (query) => {
+      db.query(query, [], (err, res) => {
         if (err) {
           reject(err);
         } else {
@@ -18,8 +18,8 @@ exports.findUsers = async function findUsers() {
 
 exports.findUserByUsername = async function findUserByUsername(username) {
   return new Promise((resolve, reject) => {
-    importQuery('appusers/findUser', [username], (query) => {
-      db.query(query, (err, res) => {
+    importQuery('appusers/findUser', (query) => {
+      db.query(query, [username], (err, res) => {
         if (err) {
           reject(err);
         } else {
@@ -34,8 +34,8 @@ exports.findUserByCredentials = async function findUserByCredentials(username, p
   // hash password before comparing to database
   const hashedPassword = bcrypt.hash(password, 20);
   return new Promise((resolve, reject) => {
-    importQuery('appusers/findUserByCredentials', [username, hashedPassword], (query) => {
-      db.query(query, (err, res) => {
+    importQuery('appusers/findUserByCredentials', (query) => {
+      db.query(query, [username, hashedPassword], (err, res) => {
         if (err) {
           reject(err);
         } else {
@@ -50,8 +50,8 @@ exports.addUser = async function addUser(username, password) {
   return new Promise((resolve, reject) => {
     // hash password before saving to database
     const hashedPassword = bcrypt.hash(password, 20);
-    importQuery('appusers/addUser', [username, hashedPassword], (query) => {
-      db.query(query, (err, res) => {
+    importQuery('appusers/addUser', (query) => {
+      db.query(query, [username, hashedPassword], (err, res) => {
         if (err) {
           reject(err);
         } else {
@@ -66,8 +66,8 @@ exports.deleteUser = async function deleteUser(username, password) {
   // has password before saving to database
   const hashedPassword = bcrypt.hash(password, 20);
   return new Promise((resolve, reject) => {
-    importQuery('appusers/deleteUser', [username, hashedPassword], (query) => {
-      db.query(query, (err, res) => {
+    importQuery('appusers/deleteUser', (query) => {
+      db.query(query, [username, hashedPassword], (err, res) => {
         if (err) {
           reject(err);
         } else {

@@ -2,8 +2,6 @@ const Router = require('@koa/router');
 const database = require('../database');
 const errHandler = require('../err');
 
-require('../auth');
-
 const notesRouter = new Router();
 
 notesRouter.prefix('/notes');
@@ -14,7 +12,7 @@ notesRouter.get('/ping', (ctx) => {
 });
 
 notesRouter.post('/get', (ctx) => {
-  const { userusername } = ctx.request.body;
+  const userusername = ctx.session.user.username;
   database.notes.findNotesByUsername(userusername)
     .then((notes) => {
       ctx.status = 200;
@@ -25,7 +23,8 @@ notesRouter.post('/get', (ctx) => {
 });
 
 notesRouter.post('/add', (ctx) => {
-  const { userusername, title, content } = ctx.request.body;
+  const userusername = ctx.session.user.username;
+  const { title, content } = ctx.request.body;
   database.notes.addNote(userusername, title, content, new Date())
     .then((note) => {
       ctx.status = 201;
