@@ -9,7 +9,7 @@ exports.findUsers = async function findUsers() {
         if (err) {
           reject(err);
         } else {
-          resolve(res);
+          resolve(res.rows);
         }
       });
     });
@@ -18,12 +18,12 @@ exports.findUsers = async function findUsers() {
 
 exports.findUserByUsername = async function findUserByUsername(username) {
   return new Promise((resolve, reject) => {
-    importQuery('appusers/findUser', (query) => {
+    importQuery('appusers/findUserByUsername', (query) => {
       db.query(query, [username], (err, res) => {
         if (err) {
           reject(err);
         } else {
-          resolve(res);
+          resolve(res.rows[0]);
         }
       });
     });
@@ -39,7 +39,7 @@ exports.findUserByCredentials = async function findUserByCredentials(username, p
         if (err) {
           reject(err);
         } else {
-          resolve(res);
+          resolve(res.rows[0]);
         }
       });
     });
@@ -55,7 +55,7 @@ exports.addUser = async function addUser(username, password) {
         if (err) {
           reject(err);
         } else {
-          resolve(res);
+          resolve(res.rows[0]);
         }
       });
     });
@@ -71,7 +71,7 @@ exports.deleteUser = async function deleteUser(username, password) {
         if (err) {
           reject(err);
         } else {
-          resolve(res);
+          resolve(res.rows[0]);
         }
       });
     });

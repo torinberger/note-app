@@ -5,7 +5,7 @@ module.exports = async function main(filepath, callback) {
     if (err) {
       throw err;
     } else {
-      callback(String(buffer).split('\n')[0]);
+      callback(String(buffer));
     }
   });
 };

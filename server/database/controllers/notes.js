@@ -8,7 +8,7 @@ exports.findNotes = async function findNotes() {
         if (err) {
           reject(err);
         } else {
-          resolve(res);
+          resolve(res.rows);
         }
       });
     });
@@ -22,7 +22,7 @@ exports.findNotesByUsername = async function findNotesByUsername(username) {
         if (err) {
           reject(err);
         } else {
-          resolve(res);
+          resolve(res.rows[0]);
         }
       });
     });
@@ -36,7 +36,7 @@ exports.addNote = async function addNote(username, title, text, lastUpdate) {
         if (err) {
           reject(err);
         } else {
-          resolve(res);
+          resolve(res.rows[0]);
         }
       });
     });
@@ -50,7 +50,7 @@ exports.updateNote = async function updateNote(id, newTitle, newContent, lastUpd
         if (err) {
           reject(err);
         } else {
-          resolve(res);
+          resolve(res.rows[0]);
         }
       });
     });
@@ -64,7 +64,7 @@ exports.deleteNote = async function deleteNote(id) {
         if (err) {
           reject(err);
         } else {
-          resolve(res);
+          resolve(res.rows[0]);
         }
       });
     });

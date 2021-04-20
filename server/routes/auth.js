@@ -28,49 +28,26 @@ authRouter.post('/login', (ctx) => {
     })
 });
 
-authRouter.post('/signup', (ctx) => {
-  return new Promise(function(resolve, reject) {
-    console.log('HIT singup');
-    db.appusers
-      .findUserByUsername(username)
-      .then((user) => {
-        if (user.username) {
-          db.appusers
-            .addUser(username, password)
-            .then((user) => {
-              ctx.session.user = { username, password };
-              ctx.status = 201;
-              resolve();
-            })
-            .catch((err) => {
-              errHandler(err);
-              ctx.status = 500;
-              reject(err);
-            })
-        } else {
-          ctx.status = 401;
-          ctx.body = 'Username Taken';
-          reject();
-        }
-      })
-      .catch((err) => {
-        errHandler(err);
-        ctx.status = 500;
-        reject(err);
-      })
-  });
-});
+authRouter.post('/signup', async (ctx) => {
+  const { username, password } = ctx.request.body;
 
-authRouter.get('/test', async (ctx) => {
-  await db.appusers
-    .findUsers()
-    .then(() => {
-      console.log('run');
-      ctx.body = 'haha';
-    })
-    .catch(() => {
+  console.log('HIT signup');
+  const preExistingUser = await db.appusers.findUserByUsername(username);
+  console.log('preExistingUser');
+  console.log(preExistingUser);
+  if (preExistingUser === undefined) {
+    const newUser = await db.appusers.addUser(username, password);
+    if (newUser.username && newUser.password) {
+      ctx.session.user = { username, password };
+      ctx.status = 201;
+    } else {
+      errHandler(err);
       ctx.status = 500;
-    })
-})
+    }
+  } else if (preExistingUser instanceof Error){
+    ctx.status = 401;
+    ctx.body = 'Username Taken';
+  }
+});
 
 module.exports = authRouter;
