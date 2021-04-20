@@ -1,12 +1,14 @@
+require('dotenv').config();
 const db = require('./connect');
 const importQuery = require('./controllers/import');
 
-importQuery('../setup.sql', [], (query) => {
+importQuery('setup', (query) => {
   db.query(query, (err, res) => {
     if (err) {
       throw err;
     } else {
-      console.log(err, res); // eslint-ignore
+      console.log('Setup complete, tables created!');
+      process.exit();
     }
   });
 });

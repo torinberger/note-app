@@ -8,5 +8,5 @@ CREATE TABLE notes (
   userusername varchar(20),
   lastupdate timestamp,
   title varchar(50),
-  content TEXT
+  content text
 );
