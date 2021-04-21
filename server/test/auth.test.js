@@ -39,7 +39,8 @@ describe('Auth', () => {
   describe('Signup', () => {
     it('it should return status 201', (done) => {
       chai.request(serverURL)
-        .post('/api/auth/signup', {
+        .post('/api/auth/signup')
+        .send({
           username: 'test',
           password: 'test'
         })

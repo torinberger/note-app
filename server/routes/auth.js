@@ -31,6 +31,7 @@ authRouter.post('/login', async (ctx) => {
 
 authRouter.post('/signup', async (ctx) => {
   const { username, password } = ctx.request.body;
+  console.log(username, password);
 
   console.log('HIT signup');
   const preExistingUser = await db.appusers.findUserByUsername(username);
