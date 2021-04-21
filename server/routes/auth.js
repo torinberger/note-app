@@ -1,16 +1,17 @@
 const Router = require('@koa/router');
 const passport = require('passport');
 const db = require('../database');
+const errHandler = require('../err');
 
 const authRouter = new Router();
 
 authRouter.prefix('/auth');
 
-authRouter.get('/ping', (ctx) => {
+authRouter.get('/ping', async (ctx) => {
   ctx.body = 'pong!';
 });
 
-authRouter.post('/login', (ctx) => {
+authRouter.post('/login', async (ctx) => {
   db.appusers
     .findUserByCredentials(username, password)
     .then((user) => {
@@ -41,13 +42,30 @@ authRouter.post('/signup', async (ctx) => {
       ctx.session.user = { username, password };
       ctx.status = 201;
     } else {
-      errHandler(err);
+      errHandler(newUser);
       ctx.status = 500;
     }
   } else if (preExistingUser instanceof Error){
+    ctx.status = 500;
+  } else {
     ctx.status = 401;
-    ctx.body = 'Username Taken';
+    ctx.body = 'Username Taken!';
   }
 });
+
+// function testPromise() {
+//   return new Promise(function(resolve, reject) {
+//     setTimeout(function () {
+//       resolve("test");
+//     }, 10);
+//   });
+// }
+//
+// authRouter.get('/test', async (ctx) => {
+//   // const value = await db.appusers.findUserByUsername('test');
+//   const value = await testPromise();
+//   ctx.status = 200;
+//   console.log(value);
+// });
 
 module.exports = authRouter;

@@ -20,7 +20,7 @@ app.use(async (ctx, next) => {
   await next();
   const ms = Date.now() - start;
   ctx.set('X-Response-Time', `${ms}ms`);
-  console.log(`${ctx.method} ${ctx.url} - ${ms}`); // eslint-ignore
+  console.log(`[${ctx.status}] ${ctx.method} ${ctx.url} - ${ms}ms`); // eslint-ignore
 });
 
 app.use(async (ctx, next) => {

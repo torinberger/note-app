@@ -6,12 +6,12 @@ const notesRouter = new Router();
 
 notesRouter.prefix('/notes');
 
-notesRouter.get('/ping', (ctx) => {
+notesRouter.get('/ping', async (ctx) => {
   ctx.status = 200;
   ctx.body = 'pong!';
 });
 
-notesRouter.post('/get', (ctx) => {
+notesRouter.post('/get', async (ctx) => {
   const userusername = ctx.session.user.username;
   database.notes.findNotesByUsername(userusername)
     .then((notes) => {
@@ -22,7 +22,7 @@ notesRouter.post('/get', (ctx) => {
   ctx.body = 'pong!';
 });
 
-notesRouter.post('/add', (ctx) => {
+notesRouter.post('/add', async (ctx) => {
   const userusername = ctx.session.user.username;
   const { title, content } = ctx.request.body;
   database.notes.addNote(userusername, title, content, new Date())
@@ -34,7 +34,7 @@ notesRouter.post('/add', (ctx) => {
   ctx.body = 'pong!';
 });
 
-notesRouter.post('/update', (ctx) => {
+notesRouter.post('/update', async (ctx) => {
   const { id, title, content } = ctx.request.body;
   database.notes.updateNote(id, title, content, new Date())
     .then((note) => {
