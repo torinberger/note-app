@@ -1,6 +1,9 @@
+DROP TABLE appusers;
+DROP TABLE notes;
+
 CREATE TABLE appusers (
   username varchar(20) UNIQUE,
-  password varchar(20)
+  password text
 );
 
 CREATE TABLE notes (

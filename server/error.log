@@ -3,3 +3,6 @@ ReferenceError: err is not defined
 error: relation "appusers" does not exist
 [object Object]
 [object Object]
+error: value too long for type character varying(20)
+error: value too long for type character varying(20)
+error: value too long for type character varying(20)

@@ -1,32 +1,18 @@
-process.env.NODE_ENV = 'test';
+/* global describe */
+/* global it */
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const server = require('../index');
-// const database = require('../database/index');
 
-const should = chai.should();
-const serverURL = `http://localhost:${process.env.PORT}`;
+const should = chai.should(); // eslint-disable-line
+const SERVERURL = `http://localhost:${process.env.PORT}`;
 
 chai.use(chaiHttp);
-
-describe('Notes', () => {
-  describe('Ping Note API Without Auth', () => {
-    it('it should return authentication error', (done) => {
-      chai.request(serverURL)
-        .get('/api/notes/ping')
-        .end((err, res) => {
-          res.should.have.status(401);
-          done();
-        });
-    });
-  });
-});
 
 describe('Auth', () => {
   describe('Ping Auth API Without Auth', () => {
     it('it should respond with "pong"', (done) => {
-      chai.request(serverURL)
+      chai.request(SERVERURL)
         .get('/api/auth/ping')
         .end((err, res) => {
           res.should.have.status(200);
@@ -38,11 +24,11 @@ describe('Auth', () => {
 
   describe('Signup', () => {
     it('it should return status 201', (done) => {
-      chai.request(serverURL)
+      chai.request(SERVERURL)
         .post('/api/auth/signup')
         .send({
           username: 'test',
-          password: 'test'
+          password: 'test',
         })
         .end((err, res) => {
           res.should.have.status(201);

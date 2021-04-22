@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint --ext .js ./",
-    "test": "./node_modules/mocha/bin/mocha",
-    "setup": "node database/setup.js",
-    "dev": "npm run lint && npm run test && node index.js"
+    "test": "npm run lint && npm run resetdb && ./node_modules/mocha/bin/mocha",
+    "resetdb": "node database/resetdb.js",
+    "dev": "npm run test && node index.js"
   },
   "repository": {
     "type": "git",

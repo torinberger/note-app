@@ -2,8 +2,10 @@ const bcrypt = require('bcrypt');
 const db = require('../connect');
 const importQuery = require('./import');
 
-exports.findUsers = async function findUsers() {
-  return new Promise(async (resolve, reject) => {
+const HASHSALTROUNDS = 10;
+
+exports.findUsers = function findUsers() {
+  return new Promise((resolve, reject) => {
     importQuery('appusers/findUsers', (query) => {
       db.query(query, [], (err, res) => {
         if (err) {
@@ -16,8 +18,8 @@ exports.findUsers = async function findUsers() {
   });
 };
 
-exports.findUserByUsername = async function findUserByUsername(username) {
-  return new Promise(async (resolve, reject) => {
+exports.findUserByUsername = function findUserByUsername(username) {
+  return new Promise((resolve, reject) => {
     importQuery('appusers/findUserByUsername', (query) => {
       db.query(query, [username], (err, res) => {
         if (err) {
@@ -30,51 +32,62 @@ exports.findUserByUsername = async function findUserByUsername(username) {
   });
 };
 
-exports.findUserByCredentials = async function findUserByCredentials(username, password) {
-  // hash password before comparing to database
-  const hashedPassword = await bcrypt.hash(password, 20);
-  return new Promise(async (resolve, reject) => {
-    importQuery('appusers/findUserByCredentials', (query) => {
-      db.query(query, [username, hashedPassword], (err, res) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(res.rows[0]);
-        }
-      });
+exports.findUserByCredentials = function findUserByCredentials(username, password) {
+  return new Promise((resolve, reject) => {
+    bcrypt.hash(password, HASHSALTROUNDS, (hashErr, hashedPassword) => {
+      if (hashErr) {
+        reject(hashErr);
+      } else {
+        importQuery('appusers/findUserByCredentials', (query) => {
+          db.query(query, [username, hashedPassword], (dbErr, res) => {
+            if (dbErr) {
+              reject(dbErr);
+            } else {
+              resolve(res.rows[0]);
+            }
+          });
+        });
+      }
     });
   });
 };
 
-exports.addUser = async function addUser(username, password) {
-  return new Promise(async (resolve, reject) => {
-    // hash password before saving to database
-    const hashedPassword = await bcrypt.hash(String(password), 20);
-    console.log('hashed password:', hashedPassword);
-    importQuery('appusers/addUser', (query) => {
-      db.query(query, [username, hashedPassword], (err, res) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(res.rows[0]);
-        }
-      });
+exports.addUser = function addUser(username, password) {
+  return new Promise((resolve, reject) => {
+    bcrypt.hash(password, HASHSALTROUNDS, (hashErr, hashedPassword) => {
+      if (hashErr) {
+        reject(hashErr);
+      } else {
+        importQuery('appusers/addUser', (query) => {
+          db.query(query, [username, hashedPassword], (dbErr, res) => {
+            if (dbErr) {
+              reject(dbErr);
+            } else {
+              resolve(res.rows[0]);
+            }
+          });
+        });
+      }
     });
   });
 };
 
-exports.deleteUser = async function deleteUser(username, password) {
-  // has password before saving to database
-  const hashedPassword = await bcrypt.hash(password, 20);
-  return new Promise(async (resolve, reject) => {
-    importQuery('appusers/deleteUser', (query) => {
-      db.query(query, [username, hashedPassword], (err, res) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(res.rows[0]);
-        }
-      });
+exports.deleteUser = function deleteUser(username, password) {
+  return new Promise((resolve, reject) => {
+    bcrypt.hash(password, HASHSALTROUNDS, (hashErr, hashedPassword) => {
+      if (hashErr) {
+        reject(hashErr);
+      } else {
+        importQuery('appusers/deleteUser', (query) => {
+          db.query(query, [username, hashedPassword], (dbErr) => {
+            if (dbErr) {
+              reject(dbErr);
+            } else {
+              resolve(true);
+            }
+          });
+        });
+      }
     });
   });
 };

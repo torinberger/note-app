@@ -1,7 +1,7 @@
 const db = require('../connect');
 const importQuery = require('./import');
 
-exports.findNotes = async function findNotes() {
+exports.findNotes = function findNotes() {
   return new Promise((resolve, reject) => {
     importQuery('notes/findNotes', [], (query) => {
       db.query(query, (err, res) => {
@@ -15,7 +15,7 @@ exports.findNotes = async function findNotes() {
   });
 };
 
-exports.findNotesByUsername = async function findNotesByUsername(username) {
+exports.findNotesByUsername = function findNotesByUsername(username) {
   return new Promise((resolve, reject) => {
     importQuery('notes/findNotesByUsername', [username], (query) => {
       db.query(query, (err, res) => {
@@ -29,7 +29,7 @@ exports.findNotesByUsername = async function findNotesByUsername(username) {
   });
 };
 
-exports.addNote = async function addNote(username, title, text, lastUpdate) {
+exports.addNote = function addNote(username, title, text, lastUpdate) {
   return new Promise((resolve, reject) => {
     importQuery('notes/addNote', [username, title, text, lastUpdate], (query) => {
       db.query(query, (err, res) => {
@@ -43,7 +43,7 @@ exports.addNote = async function addNote(username, title, text, lastUpdate) {
   });
 };
 
-exports.updateNote = async function updateNote(id, newTitle, newContent, lastUpdate) {
+exports.updateNote = function updateNote(id, newTitle, newContent, lastUpdate) {
   return new Promise((resolve, reject) => {
     importQuery('notes/updateNote', [id, newTitle, newContent, lastUpdate], (query) => {
       db.query(query, (err, res) => {
@@ -57,7 +57,7 @@ exports.updateNote = async function updateNote(id, newTitle, newContent, lastUpd
   });
 };
 
-exports.deleteNote = async function deleteNote(id) {
+exports.deleteNote = function deleteNote(id) {
   return new Promise((resolve, reject) => {
     importQuery('notes/deleteNote', [id], (query) => {
       db.query(query, (err, res) => {

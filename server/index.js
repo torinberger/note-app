@@ -16,20 +16,28 @@ app.use(session(app));
 app.use(bodyParser());
 
 app.use(async (ctx, next) => {
-  const start = Date.now();
-  await next();
-  const ms = Date.now() - start;
-  ctx.set('X-Response-Time', `${ms}ms`);
-  console.log(`[${ctx.status}] ${ctx.method} ${ctx.url} - ${ms}ms`); // eslint-ignore
+  if (process.env.NODE_ENV === 'test') {
+    await next();
+  } else {
+    const start = Date.now();
+    await next();
+    const ms = Date.now() - start;
+    ctx.set('X-Response-Time', `${ms}ms`);
+    console.log(`[${ctx.status}] ${ctx.method} ${ctx.url} - ${ms}ms`); // eslint-ignore
+  }
 });
 
 app.use(async (ctx, next) => {
-  try {
+  if (process.env.NODE_ENV === 'test') {
     await next();
-  } catch (err) {
-    console.log(`${ctx.method} ${ctx.url} - Error`);
-    errHandler(err);
-    ctx.status = 500;
+  } else {
+    try {
+      await next();
+    } catch (err) {
+      console.log(`${ctx.method} ${ctx.url} - Error`);
+      errHandler(err);
+      ctx.status = 500;
+    }
   }
 });
 

@@ -13,15 +13,13 @@ router.use(async (ctx, next) => {
     await next();
   } else if (ctx.session.user) { // if authentication session avaliable
     // test authentication credentials
-    const authenticatedUser =
-      await database
-        .appusers
-        .findUserByCredentials(ctx.session.user.username, ctx.session.user.password);
+    const authenticatedUser = await database.appusers
+      .findUserByCredentials(ctx.session.user.username, ctx.session.user.password);
 
     if (authenticatedUser) {
       await next(); // if user found, pass to next route
     } else if (authenticatedUser instanceof Error) {
-      errHandler(err);
+      errHandler(authenticatedUser);
       ctx.status = 500;
     } else {
       ctx.status = 401;
@@ -35,21 +33,6 @@ router.use(async (ctx, next) => {
 
 router.get('/ping', async (ctx) => {
   ctx.body = 'pong!';
-});
-
-function testPromise() {
-  return new Promise(function(resolve, reject) {
-    setTimeout(function () {
-      resolve("test");
-    }, 10);
-  });
-}
-
-router.get('/test', async (ctx) => {
-  // const value = await db.appusers.findUserByUsername('test');
-  const value = await testPromise();
-  ctx.status = 200;
-  console.log(value);
 });
 
 router
