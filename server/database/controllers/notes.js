@@ -1,72 +1,74 @@
 const db = require('../connect');
 const importQuery = require('./import');
 
-exports.findNotes = function findNotes() {
+exports.findNotesByUsername = function findNotesByNotename(username) {
   return new Promise((resolve, reject) => {
-    importQuery('notes/findNotes', [], (query) => {
-      db.query(query, (err, res) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(res.rows);
-        }
-      });
+    importQuery('notes/findNotesByUsername', (importErr, query) => {
+      if (importErr) {
+        reject(importErr);
+      } else {
+        db.query(query, [username], (err, res) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(res.rows);
+          }
+        });
+      }
     });
   });
 };
 
-exports.findNotesByUsername = function findNotesByUsername(username) {
+exports.addNote = function addNote(userusername, title, content, lastUpdate) {
   return new Promise((resolve, reject) => {
-    importQuery('notes/findNotesByUsername', [username], (query) => {
-      db.query(query, (err, res) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(res.rows[0]);
-        }
-      });
+    importQuery('notes/addNote', (importErr, query) => {
+      if (importErr) {
+        reject(importErr);
+      } else {
+        db.query(query, [userusername, title, content, lastUpdate], (dbErr, res) => {
+          if (dbErr) {
+            reject(dbErr);
+          } else {
+            resolve(res.rows[0]);
+          }
+        });
+      }
     });
   });
 };
 
-exports.addNote = function addNote(username, title, text, lastUpdate) {
+exports.deleteNoteByID = function deleteNote(noteID) {
   return new Promise((resolve, reject) => {
-    importQuery('notes/addNote', [username, title, text, lastUpdate], (query) => {
-      db.query(query, (err, res) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(res.rows[0]);
-        }
-      });
+    importQuery('notes/deleteNote', (importErr, query) => {
+      if (importErr) {
+        reject(importErr);
+      } else {
+        db.query(query, [noteID], (dbErr) => {
+          if (dbErr) {
+            reject(dbErr);
+          } else {
+            resolve(true);
+          }
+        });
+      }
     });
   });
 };
 
 exports.updateNote = function updateNote(id, newTitle, newContent, lastUpdate) {
   return new Promise((resolve, reject) => {
-    importQuery('notes/updateNote', [id, newTitle, newContent, lastUpdate], (query) => {
-      db.query(query, (err, res) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(res.rows[0]);
-        }
-      });
-    });
-  });
-};
-
-exports.deleteNote = function deleteNote(id) {
-  return new Promise((resolve, reject) => {
-    importQuery('notes/deleteNote', [id], (query) => {
-      db.query(query, (err, res) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(res.rows[0]);
-        }
-      });
+    importQuery('notes/updateNote', (importErr, query) => {
+      if (importErr) {
+        reject(importErr);
+      } else {
+        db.query(query, [id, newTitle, newContent, lastUpdate], (dbErr) => {
+          if (dbErr) {
+            reject(dbErr);
+          } else {
+            resolve(true);
+          }
+        });
+      }
     });
   });
 };

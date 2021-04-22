@@ -8,3 +8,4 @@ require('./api/auth.test.js');
 require('./api/notes.test.js');
 
 require('./database/appusers.test.js');
+require('./database/notes.test.js');

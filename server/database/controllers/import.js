@@ -3,9 +3,9 @@ const fs = require('fs');
 module.exports = async function main(filepath, callback) {
   fs.readFile(`${__dirname}/queries/${filepath}.sql`, (err, buffer) => {
     if (err) {
-      throw err;
+      callback(err);
     } else {
-      callback(String(buffer));
+      callback(null, String(buffer));
     }
   });
 };

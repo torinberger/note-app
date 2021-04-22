@@ -6,34 +6,20 @@ const database = require('../../database');
 
 const should = chai.should(); // eslint-disable-line
 
-describe('App Users', () => {
-  describe('Find Users', () => {
-    it('it should respond with an array',
-      () => database.appusers.findUsers()
-        .then((res) => {
-          res.should.be.an('array');
-        })
-        .catch((err) => {
-          should.not.exist(err);
-        }));
-  });
-
+describe('App User Database Controller', () => {
   describe('Find User By Username', () => {
     it('it should return an object',
       () => database.appusers.findUserByUsername('test')
         .then((res) => {
-          res.should.be.an('object');
+          res.should.be.equal(true);
         })
         .catch((err) => {
           should.not.exist(err);
         }));
-  });
-
-  describe('Find User By Invalid Username', () => {
-    it('it should not return an object',
+    it('it should not return an object when supplied an invalid username',
       () => database.appusers.findUserByUsername('fakeusername')
         .then((res) => {
-          res.should.not.be.an('object');
+          res.should.not.be.equal(true);
         })
         .catch((err) => {
           should.exist(err);
@@ -42,20 +28,18 @@ describe('App Users', () => {
 
   describe('Find User By Credentials', () => {
     it('it should return an object',
-      () => database.appusers.findUserByUsername('test', 'test')
+      () => database.appusers.findUserByCredentials('test', 'test')
         .then((res) => {
-          res.should.be.an('object');
+          res.should.be.equal(true);
         })
         .catch((err) => {
+          console.log(err);
           should.not.exist(err);
         }));
-  });
-
-  describe('Find User By Invalid Credentials', () => {
-    it('it should not return an object',
-      () => database.appusers.findUserByUsername('test', 'wrongpassword')
+    it('it should not return an object when supplied an invalid credentials',
+      () => database.appusers.findUserByCredentials('test', 'fakepassword')
         .then((res) => {
-          res.should.not.be.an('object');
+          res.should.not.be.equal(true);
         })
         .catch((err) => {
           should.exist(err);
@@ -66,18 +50,15 @@ describe('App Users', () => {
     it('it should create and return a user',
       () => database.appusers.addUser('test2', 'test2')
         .then((res) => {
-          res.should.be.an('object');
+          res.should.be.equal(true);
         })
         .catch((err) => {
           should.not.exist(err);
         }));
-  });
-
-  describe('Add Pre-Existing User', () => {
-    it('it should not create and return a user',
+    it('it should not create and return a user with the user already exists',
       () => database.appusers.addUser('test2', 'test2')
         .then((res) => {
-          res.should.not.be.an('object');
+          res.should.not.be.equal(true);
         })
         .catch((err) => {
           err.should.be.an('error');
@@ -93,10 +74,8 @@ describe('App Users', () => {
         .catch((err) => {
           should.not.exist(err);
         }));
-  });
 
-  describe('Delete Invalid User', () => {
-    it('it should not delete the user',
+    it('it should return an error when user doesn\'t exist',
       () => database.appusers.deleteUser('test2', 'test2')
         .then((res) => {
           res.should.not.equal(true);

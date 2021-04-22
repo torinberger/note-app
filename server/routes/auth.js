@@ -29,9 +29,9 @@ authRouter.post('/login', async (ctx) => {
 authRouter.post('/signup', async (ctx) => {
   const { username, password } = ctx.request.body;
   const preExistingUser = await db.appusers.findUserByUsername(username);
-  if (preExistingUser === undefined) {
+  if (!preExistingUser) {
     const newUser = await db.appusers.addUser(username, password);
-    if (newUser.username && newUser.password) {
+    if (newUser) {
       ctx.session.user = { username, password };
       ctx.status = 201;
     } else {

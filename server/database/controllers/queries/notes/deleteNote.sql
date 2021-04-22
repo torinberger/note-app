@@ -1,1 +1,1 @@
-DELETE FROM notes WHERE userusername = $1;
+DELETE FROM notes WHERE id = $1;
