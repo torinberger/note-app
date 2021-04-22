@@ -1,5 +1,5 @@
-DROP TABLE appusers;
-DROP TABLE notes;
+DROP TABLE IF EXISTS appusers;
+DROP TABLE IF EXISTS notes;
 
 CREATE TABLE appusers (
   username varchar(20) UNIQUE,
