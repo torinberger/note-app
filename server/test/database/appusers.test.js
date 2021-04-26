@@ -7,9 +7,28 @@ const database = require('../../database');
 const should = chai.should(); // eslint-disable-line
 
 describe('App User Database Controller', () => {
+  describe('Add User', () => {
+    it('it should create and return a user',
+      () => database.appusers.addUser('dbtest', 'test')
+        .then((res) => {
+          res.should.be.equal(true);
+        })
+        .catch((err) => {
+          should.not.exist(err);
+        }));
+    it('it should not create and return a user with the user already exists',
+      () => database.appusers.addUser('dbtest', 'test')
+        .then((res) => {
+          res.should.not.be.equal(true);
+        })
+        .catch((err) => {
+          err.should.be.an('error');
+        }));
+  });
+
   describe('Find User By Username', () => {
     it('it should return an object',
-      () => database.appusers.findUserByUsername('test')
+      () => database.appusers.findUserByUsername('dbtest')
         .then((res) => {
           res.should.be.equal(true);
         })
@@ -28,7 +47,7 @@ describe('App User Database Controller', () => {
 
   describe('Find User By Credentials', () => {
     it('it should return an object',
-      () => database.appusers.findUserByCredentials('test', 'test')
+      () => database.appusers.findUserByCredentials('dbtest', 'test')
         .then((res) => {
           res.should.be.equal(true);
         })
@@ -37,7 +56,7 @@ describe('App User Database Controller', () => {
           should.not.exist(err);
         }));
     it('it should not return an object when supplied an invalid credentials',
-      () => database.appusers.findUserByCredentials('test', 'fakepassword')
+      () => database.appusers.findUserByCredentials('dbtest', 'fakepassword')
         .then((res) => {
           res.should.not.be.equal(true);
         })
@@ -46,28 +65,9 @@ describe('App User Database Controller', () => {
         }));
   });
 
-  describe('Add User', () => {
-    it('it should create and return a user',
-      () => database.appusers.addUser('test2', 'test2')
-        .then((res) => {
-          res.should.be.equal(true);
-        })
-        .catch((err) => {
-          should.not.exist(err);
-        }));
-    it('it should not create and return a user with the user already exists',
-      () => database.appusers.addUser('test2', 'test2')
-        .then((res) => {
-          res.should.not.be.equal(true);
-        })
-        .catch((err) => {
-          err.should.be.an('error');
-        }));
-  });
-
   describe('Delete User', () => {
     it('it should delete a user',
-      () => database.appusers.deleteUser('test2', 'test2')
+      () => database.appusers.deleteUserByUsername('dbtest')
         .then((res) => {
           res.should.equal(true);
         })
@@ -76,7 +76,7 @@ describe('App User Database Controller', () => {
         }));
 
     it('it should return an error when user doesn\'t exist',
-      () => database.appusers.deleteUser('test2', 'test2')
+      () => database.appusers.deleteUserByUsername('dbtest')
         .then((res) => {
           res.should.not.equal(true);
         })

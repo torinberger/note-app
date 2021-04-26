@@ -43,11 +43,11 @@ exports.deleteNoteByID = function deleteNote(noteID) {
       if (importErr) {
         reject(importErr);
       } else {
-        db.query(query, [noteID], (dbErr) => {
+        db.query(query, [noteID], (dbErr, res) => {
           if (dbErr) {
             reject(dbErr);
           } else {
-            resolve(true);
+            resolve(!!res.rowCount);
           }
         });
       }
@@ -55,17 +55,17 @@ exports.deleteNoteByID = function deleteNote(noteID) {
   });
 };
 
-exports.updateNote = function updateNote(id, newTitle, newContent, lastUpdate) {
+exports.updateNoteByID = function updateNote(id, newTitle, newContent, lastUpdate) {
   return new Promise((resolve, reject) => {
     importQuery('notes/updateNote', (importErr, query) => {
       if (importErr) {
         reject(importErr);
       } else {
-        db.query(query, [id, newTitle, newContent, lastUpdate], (dbErr) => {
+        db.query(query, [id, newTitle, newContent, lastUpdate], (dbErr, res) => {
           if (dbErr) {
             reject(dbErr);
           } else {
-            resolve(true);
+            resolve(!!res.rowCount);
           }
         });
       }

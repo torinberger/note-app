@@ -75,7 +75,7 @@ exports.addUser = function addUser(username, password) {
   });
 };
 
-exports.deleteUser = function deleteUser(username) {
+exports.deleteUserByUsername = function deleteUser(username) {
   return new Promise((resolve, reject) => {
     importQuery('appusers/deleteUser', (importErr, query) => {
       if (importErr) {
